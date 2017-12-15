@@ -70,10 +70,10 @@ class _ModelChildrenForm extends React.Component {
                         }
                         setValue(temp);
                     }}/>
-                <ModelDataForm
-                    disableForm={this.props.modelMeta.disableAddData}
-                    modelType={props.modelMeta.type}
-                    onSubmit={this.addModelData}/>
+                {/*<ModelDataForm*/}
+                    {/*disableForm={this.props.modelMeta.disableAddData}*/}
+                    {/*modelType={props.modelMeta.type}*/}
+                    {/*onSubmit={this.addModelData}/>*/}
             </div>
         );
     }

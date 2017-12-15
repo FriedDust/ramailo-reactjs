@@ -21,7 +21,7 @@ export class ModelDataForm extends React.Component {
         this.renderFormElement = this.renderFormElement.bind(this);
     }
 
-    getFormElement({type, label, name}) {
+    getFormElement({type, label, name, childrenType}) {
 
         if (this.props.modelMetaTypeList.indexOf(type) > -1) {
             return (
@@ -51,7 +51,7 @@ export class ModelDataForm extends React.Component {
             case 'List':
                 //TODO: Figure a way out to point intermediate models
                 return (
-                    <ModelChildrenForm field={name} label={label} modelType={'Item'}/>
+                    <ModelChildrenForm field={name} label={label} modelType={childrenType}/>
                 );
 
             default:

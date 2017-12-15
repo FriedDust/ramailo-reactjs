@@ -24,11 +24,9 @@ export default function meta(state = {
                     _attr.name = attr.name;
                     _attr.label = attr.label;
                     _attr.type = attr.type;
-                    attr.annotations.forEach((ann) => {
-                        if (ann.name === "GeneratedValue") {
-                            _attr.isGeneratedValue = true;
-                        }
-                    });
+                    _attr.isGeneratedValue = attr.autoPk;
+                    _attr.isPrimaryKey = attr.autoPk;
+                    _attr.childrenType = attr.childrenType;
                     return _attr;
                 });
                 types[payloadItem.type] = payloadItem;
