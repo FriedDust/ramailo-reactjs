@@ -120,12 +120,12 @@ class _ModelChildrenForm extends React.Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <ModelDataForm
-                                    isChildForm={true}
-                                    parentModelType={props.parentModelType}
-                                    disableForm={this.props.modelMeta.disableAddData}
-                                    modelType={props.modelMeta.type}
-                                    onSubmit={this.addModelData}/>
+                                {/*<ModelDataForm*/}
+                                    {/*isChildForm={true}*/}
+                                    {/*parentModelType={props.parentModelType}*/}
+                                    {/*disableForm={this.props.modelMeta.disableAddData}*/}
+                                    {/*modelType={props.modelMeta.type}*/}
+                                    {/*onSubmit={this.addModelData}/>*/}
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

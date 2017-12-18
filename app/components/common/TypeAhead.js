@@ -58,11 +58,9 @@ class _TypeAhead extends React.Component {
                         setTimeout(()=> {
                             let complete = this.props.modelData.getAll();
                             let options = complete.filter((opt)=> {
-                                // console.log(888, opt);
-                                let temp = toString(props.modelMeta, opt[props.modelMeta.stringify])
-                                //console.log(999, temp, props.modelMeta, opt[props.modelMeta.stringify]);
-                                // return (temp.toLowerCase().indexOf(input) > -1);
-                                return true;
+                                //TODO: Handle scenario where stringify is object
+                                let value = opt[this.props.modelMeta.stringify] || '';
+                                return (value.toLowerCase().indexOf(input) > -1);
                             });
                             let data = { options, complete };
                             callback(null, data);
