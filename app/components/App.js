@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {loadMeta} from '../actions/meta'
@@ -33,7 +34,7 @@ class App extends React.Component {
             <div>
                 <header>
                     <nav className="navbar navbar-expand-md navbar-dark fixed-top">
-                        <a className="navbar-brand" href="#">Ramailo</a>
+                        <Link className="navbar-brand" to="/">Ramailo</Link>
 
                         <div className="collapse navbar-collapse">
                             <ul className="navbar-nav">
