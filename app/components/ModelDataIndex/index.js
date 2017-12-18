@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
 import {loadData, addData} from '../../actions/data';
-import {ModelDataForm} from '../common/ModelDataForm';
+import {ModelNav} from '../common/ModelNav';
 import {ModelDataTable} from '../common/ModelDataTable';
 
 @connect((store, props) => {
@@ -64,10 +64,7 @@ export class ModelDataIndex extends React.Component {
         }
         return (
             <div>
-                <ModelDataForm
-                    disableForm={this.props.modelMeta.disableAddData}
-                    modelType={this.props.modelMeta.type}
-                    onSubmit={this.addModelData}/>
+                <ModelNav modelMeta={this.props.modelMeta} />
                 <ModelDataTable
                     modelMeta={this.props.modelMeta}
                     modelDataList={this.props.modelDataList}/>

@@ -1,23 +1,38 @@
-import ReactDataGrid from 'react-data-grid';
+import {Link} from "react-router-dom";
+import {toString} from "../../utils/meta";
 
 export class ModelDataTable extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.getColumns = this.getColumns.bind(this);
+
+        this.columns = [];
+        this.deleteHandler = this.deleteHandler.bind(this);
+
+        this.mapGridHeaders();
     }
 
-    getColumns() {
-        let columns = [];
-        let modelMeta = this.props.modelMeta;
-        let modelMetaAtrributes = modelMeta.attributes;
-        modelMetaAtrributes.forEach((attr) => {
-            columns.push({
-                key: attr.name,
-                name: attr.label
-            });
-        });
-        return columns;
+    mapGridHeaders() {
+        if (this.props.modelMeta.gridHeaders) {
+            this.props.modelMeta.attributes.forEach((attr)=> {
+                if(this.props.modelMeta.gridHeaders.indexOf(attr.name) > -1) {
+                    this.columns.push(attr);
+                }
+            })
+        } else {
+            this.props.modelMeta.attributes.forEach((attr)=> {
+                if(attr.name == this.props.modelMeta.stringify) {
+                    this.columns.push(attr);
+                }
+            })
+        }
+    }
+
+    deleteHandler(e) {
+        if (confirm('Are you sure?')) {
+            console.log("TODO");
+        }
+        return false;
     }
 
     render() {
@@ -28,16 +43,33 @@ export class ModelDataTable extends React.Component {
         }
         return (
             <div>
-                <h1>{this.props.modelMeta.label}</h1>
-                <ReactDataGrid
-                    enableCellSelect={true}
-                    columns={this.getColumns()}
-                    rowGetter={(index) => {
-                        return this.props.modelDataList[index];
-                    }}
-                    rowsCount={this.props.modelDataList.length}
-                    minHeight={200}
-                />
+                <h3>{this.props.modelMeta.label}</h3>
+                <table className="table table-striped table-bordered table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            {this.columns.map((col, index) => {
+                                return (<th key={index}>{col.label}</th>)
+                            }
+                            )}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {this.props.modelDataList.map((row) => {
+                        return (<tr key={row.id}>
+                            {this.columns.map((col, index) => {
+
+                                return (<td key={index}>{toString(col, row[col.name])}</td>)
+                            })}
+                            <td>
+                                <Link to={`/${this.props.modelMeta.name}/${row.id}`}>Edit</Link>
+                                |
+                                <a href="#" onClick={this.deleteHandler}>Delete</a>
+                            </td>
+                        </tr>)
+                    })}
+                    </tbody>
+                </table>
             </div>
         )
     }

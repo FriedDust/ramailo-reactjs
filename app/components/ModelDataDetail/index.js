@@ -1,26 +1,39 @@
 import {connect} from 'react-redux';
 import {loadDataItem} from '../../actions/data';
 
+import {ModelDataForm} from '../common/ModelDataForm';
+import {ModelDataItem} from '../common/ModelDataItem';
+import {editData} from '../../actions/data';
+import {ModelNav} from '../common/ModelNav';
+
 @connect((store, props) => {
     let modelMetaNameTypeMap = store.meta.nameTypeMap;
     let modelName = props.match.params.modelName;
     let modelType = modelMetaNameTypeMap[modelName];
+    let modelDataId = props.match.params.modelDataId;
 
     let modelMeta = store.meta.types[modelType];
     let modelData = store.data[modelType];
+    let modelDataItem = modelData ? modelData.byId[modelDataId] : null;
 
-    let modelDataList = modelData ? modelData.getAll() : [];
+    let modelMetaTypeList = Object.keys(store.meta.types);
+
+    let getModelMeta = store.meta.getModelMeta();
+
     return {
         modelMeta,
         modelMetaNameTypeMap,
-        modelDataList
+        modelDataItem,
+        modelMetaTypeList,
+        getModelMeta
     }
 })
-export class ModelDataEdit extends React.Component {
+export class ModelDataDetail extends React.Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {};
+        this.editModelData = this.editModelData.bind(this);
     }
 
     componentDidMount() {
@@ -47,11 +60,32 @@ export class ModelDataEdit extends React.Component {
         }
     }
 
+    editModelData(modelDataItem) {
+        let modelName = this.props.match.params.modelName;
+        let modelType = this.props.modelMetaNameTypeMap[modelName];
+        this.props.dispatch(editData({modelName, modelType, modelDataItem}, ()=> {
+            this.props.history.push(`/${this.props.modelMeta.name}`);
+        }));
+    }
+
     render() {
 
+        let props = this.props;
+        let modelDataItem = props.modelDataItem;
+
+        if (!modelDataItem) {
+            return <div>Loading data..</div>
+        }
         return (
             <div>
-               TODO : Model item API not working
+                <ModelNav modelMeta={this.props.modelMeta}/>
+
+                <h3>Edit {this.props.modelMeta.label}</h3>
+                <ModelDataForm
+                    selection={props.modelDataItem}
+                    disableForm={this.props.modelMeta.disableAddData}
+                    modelType={this.props.modelMeta.type}
+                    onSubmit={this.editModelData}/>
             </div>
         )
     }

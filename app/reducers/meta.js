@@ -1,11 +1,16 @@
 export default function meta(state = {
     types: {},
     nameTypeMap: {},
+    modelMetaLoaded: false,
     getAll(filter) {
         let keys = Object.keys(this.types);
         return keys.map((k)=> this.types[k]);
     },
-    modelMetaLoaded: false
+    getModelMeta() {
+        return (modelType) => {
+            return this.types[modelType];
+        }
+    }
 }, action) {
 
     let payload = action.payload;

@@ -52,22 +52,23 @@ class _ModelParentForm extends React.Component {
 
         let modelDataList = modelData ? modelData.getAll() : [];
 
-        let currentValueId = getValue();
-        let currentValue = modelData.byId[currentValueId] || {};
+        let currentValue = getValue() || {};
+        let modelMetaSelector = props.modelMeta.stringify;
 
         return (
             <div>
                 <span>
-                    {props.modelMeta.label} : {currentValue.name || "Not Assigned"}
+                    {props.modelMeta.label} : {currentValue[modelMetaSelector] || "Not Assigned"}
                 </span>
                 <Dropdown
+                    selector={modelMetaSelector}
                     modelDataList={modelDataList || []}
                     onSelect={(md) => {
-                        setValue(md.id) // TODO : Set default key
+                        setValue(md);
                     }}/>
                 <ModelDataForm
-                    disableForm={this.props.modelMeta.disableAddData}
-                    modelType={this.props.modelMeta.type}
+                    disableForm={props.modelMeta.disableAddData}
+                    modelType={props.modelMeta.type}
                     onSubmit={this.addModelData}/>
             </div>
         );

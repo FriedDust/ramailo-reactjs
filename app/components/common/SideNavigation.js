@@ -13,8 +13,8 @@ class SideNavigation extends React.Component {
     render() {
 
         return (
-            <div>
-                <ul>
+            <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                <ul className="nav flex-column">
                     {
                         this.props.modelMetaList.map((modelMeta, index)=> {
                             return (
@@ -28,7 +28,7 @@ class SideNavigation extends React.Component {
                     }
                 </ul>
                 <hr/>
-            </div>
+            </nav>
         )
     }
 }

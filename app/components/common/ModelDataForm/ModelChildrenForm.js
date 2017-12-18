@@ -1,20 +1,18 @@
 import {FormField} from 'react-form';
 import {connect} from 'react-redux';
 
-import {Dropdown} from '../Dropdown'
+import {ModelDataItem} from '../ModelDataItem'
 import {ModelDataForm} from '../ModelDataForm';
 import {loadData, addData} from '../../../actions/data';
 
 
 @connect((store, props) => {
     let modelType = props.modelType;
-    let modelData = store.data[modelType];
-    let modelDataList = modelData ? modelData.getAll() : [];
-    let modelDataById = modelData ? modelData.byId : {};
+    let modelMetaTypeList = Object.keys(store.meta.types);
+
     return {
         modelMeta: store.meta.types[modelType],
-        modelDataById,
-        modelDataList
+        modelMetaTypeList
     }
 })
 class _ModelChildrenForm extends React.Component {
@@ -34,9 +32,10 @@ class _ModelChildrenForm extends React.Component {
     }
 
     addModelData(modelDataItem) {
-        let modelName = this.props.modelMeta.name;
-        let modelType = this.props.modelMeta.type;
-        this.props.dispatch(addData({modelName, modelType, modelDataItem}));
+        const {fieldApi} = this.props;
+        const {getValue, setValue} = fieldApi;
+        let selection = getValue() || [];
+        setValue([...selection, modelDataItem]);
     }
 
     render() {
@@ -44,36 +43,35 @@ class _ModelChildrenForm extends React.Component {
         let props = this.props;
 
         const {fieldApi} = props;
-        const {getValue, setValue} = fieldApi;
+        const {getValue} = fieldApi;
 
         let selection = getValue() || [];
+        let modelMeta = props.modelMeta;
+        let parentModelType = props.parentModelType;
+        let modelMetaTypeList = props.modelMetaTypeList;
 
         return (
             <div>
-                <h2>{props.label}</h2>
+                <h2>{props.modelMeta.label}</h2>
                 <ul>
                     {
-                        selection.map((optionId) => {
-                            let option = this.props.modelDataById[optionId] || {};
+                        selection.map((obj, index) => {
                             return (
-                                <li key={optionId}>{option.name}</li>
+                                <ModelDataItem modelMeta={modelMeta}
+                                               modelDataItem={obj}
+                                               parentModelType={parentModelType}
+                                               modelMetaTypeList={modelMetaTypeList}
+                                               index={index}/>
                             )
                         })
                     }
                 </ul>
-                <Dropdown
-                    modelDataList={this.props.modelDataList || []}
-                    onSelect={(md) => {
-                        let temp = Object.assign([], selection);
-                        if(temp.indexOf(md.id) === -1) {
-                            temp.push(md.id); //TODO: Make this dynamic
-                        }
-                        setValue(temp);
-                    }}/>
-                {/*<ModelDataForm*/}
-                    {/*disableForm={this.props.modelMeta.disableAddData}*/}
-                    {/*modelType={props.modelMeta.type}*/}
-                    {/*onSubmit={this.addModelData}/>*/}
+                <ModelDataForm
+                    isChildForm={true}
+                    parentModelType={props.parentModelType}
+                    disableForm={this.props.modelMeta.disableAddData}
+                    modelType={props.modelMeta.type}
+                    onSubmit={this.addModelData}/>
             </div>
         );
     }

@@ -47,10 +47,8 @@ export default function data(state = {}, action) {
             };
         }
 
-        case "LOAD_DATA_ITEM":
-        case "ADD_DATA": {
+        case "UPDATE_DATA_ITEM": {
             let newStateData = {...state[payload.modelType]};
-            console.log(payload, 111)
             newStateData['byId'][payloadData.id] = payloadData;
             if(newStateData['dataIds'].indexOf(payloadData.id) === -1) {
                 newStateData['dataIds'].push(payloadData.id);

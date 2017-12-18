@@ -22,10 +22,15 @@ export class ModelDataForm extends React.Component {
     }
 
     getFormElement({type, label, name, childrenType}) {
+        let props = this.props;
+
+        if (props.isChildForm && props.parentModelType === type) {
+            return null;
+        }
 
         if (this.props.modelMetaTypeList.indexOf(type) > -1) {
             return (
-                <ModelParentForm field={name} name={name} label={label} modelType={type}/>
+                <ModelParentForm field={name} modelType={type}/>
             );
         }
 
@@ -33,32 +38,32 @@ export class ModelDataForm extends React.Component {
 
             case 'String':
                 return (
-                    <div>
-                        <label htmlFor={name}>{label}</label>
-                        <Text field={name}/>
+                    <div className="form-group">
+                        <label>{label}</label>
+                        <Text field={name} className="form-control" />
                     </div>
                 );
 
             case 'BigDecimal':
             case 'Integer':
                 return (
-                    <div>
-                        <label htmlFor={name}>{label}</label>
-                        <Text field={name}/>
+                    <div className="form-group">
+                        <label>{label}</label>
+                        <Text field={name} className="form-control" />
                     </div>
                 );
 
             case 'List':
-                //TODO: Figure a way out to point intermediate models
                 return (
-                    <ModelChildrenForm field={name} label={label} modelType={childrenType}/>
+                    <ModelChildrenForm field={name} parentModelType={props.modelMeta.type}
+                                       modelType={childrenType}/>
                 );
 
             default:
                 return (
-                    <div>
-                        <label htmlFor={name}>{label}</label>
-                        <Text field={name}/>
+                    <div className="form-group">
+                        <label>{label}</label>
+                        <Text field={name} className="form-control" />
                     </div>
                 );
         }
@@ -71,7 +76,6 @@ export class ModelDataForm extends React.Component {
         return (
             <div key={index}>
                 {this.getFormElement(column)}
-                <hr/>
             </div>
         )
     }
@@ -80,8 +84,7 @@ export class ModelDataForm extends React.Component {
         let props = this.props;
 
         return (
-            <div style={{border: '1px solid #ccc', margin: 4, padding: 4}}>
-                <h2>Add new {props.modelMeta.type}</h2>
+            <div>
                 <Form
                     onSubmit={(submittedValue) => {
                         props.onSubmit(submittedValue);
@@ -89,13 +92,14 @@ export class ModelDataForm extends React.Component {
                     defaultValues={props.selection || {}}
                 >
                     { formApi => (
-                        <div>
+                        <div className="form-group">
                             {
                                 props.modelMeta.attributes.map((column, index) => this.renderFormElement(column, index))
                             }
                             <button type="submit"
                                     onClick={formApi.submitForm}
-                                    disabled={props.disableForm}>
+                                    disabled={props.disableForm}
+                                    className="btn btn-default">
                                 Submit
                             </button>
                         </div>

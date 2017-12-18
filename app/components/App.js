@@ -31,8 +31,20 @@ class App extends React.Component {
 
         return (
             <div>
+                <header>
+                    <nav className="navbar navbar-expand-md navbar-dark fixed-top">
+                        <a className="navbar-brand" href="#">Ramailo</a>
+
+                        <div className="collapse navbar-collapse">
+                            <ul className="navbar-nav">
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
                 <SideNavigation modelMetaList={this.props.modelMetaList}/>
-                {routes}
+                <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+                    {routes}
+                </main>
             </div>
         )
     }
