@@ -6,6 +6,7 @@ import App from './components/App';
 
 import './scss/style.scss';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-select/dist/react-select.css';
 
 const appElement = document.createElement('div');
 appElement.className = "main-wrapper";
