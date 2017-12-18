@@ -49,7 +49,6 @@ export class ModelDataForm extends React.Component {
                 );
 
             case 'List':
-                console.log(929292, this.props.modelMeta);
                 return (
                     <ModelChildrenForm field={name} parentModelType={this.props.modelMeta.type}
                                        modelType={childrenType}

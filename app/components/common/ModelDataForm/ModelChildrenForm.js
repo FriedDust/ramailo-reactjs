@@ -52,6 +52,12 @@ class _ModelChildrenForm extends React.Component {
         return columns;
     }
 
+    addRow(rowData) {
+        return (
+            <tr></tr>
+        );
+    }
+
     render() {
 
         let props = this.props;
@@ -67,6 +73,12 @@ class _ModelChildrenForm extends React.Component {
         return (
             <div>
                 <h2>{props.modelMeta.label}</h2>
+                <ul className="nav navbar-nav navbar-right">
+
+                    <li>
+                        <button>+</button>
+                    </li>
+                </ul>
                 <table className="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                         <tr>
