@@ -12,14 +12,14 @@ export class ModelDataTable extends React.Component {
     getGridHeaders() {
         let columns = [];
         if (this.props.modelMeta.gridHeaders) {
-            this.props.modelMeta.attributes.forEach((attr)=> {
-                if(this.props.modelMeta.gridHeaders.indexOf(attr.name) > -1) {
+            this.props.modelMeta.attributes.forEach((attr) => {
+                if (this.props.modelMeta.gridHeaders.indexOf(attr.name) > -1) {
                     columns.push(attr);
                 }
             })
         } else {
-            this.props.modelMeta.attributes.forEach((attr)=> {
-                if(attr.name == this.props.modelMeta.stringify) {
+            this.props.modelMeta.attributes.forEach((attr) => {
+                if (attr.name == this.props.modelMeta.stringify) {
                     columns.push(attr);
                 }
             })
@@ -42,31 +42,36 @@ export class ModelDataTable extends React.Component {
         }
         return (
             <div>
-                <h3>{this.props.modelMeta.label}</h3>
                 <table className="table table-striped table-bordered table-condensed table-hover">
                     <thead>
-                        <tr>
-                            {this.getGridHeaders().map((col, index) => {
+                    <tr>
+                        {this.getGridHeaders().map((col, index) => {
                                 return (<th key={index}>{col.label}</th>)
                             }
-                            )}
-                            <th>Actions</th>
-                        </tr>
+                        )}
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                    {this.props.modelDataList.map((row) => {
-                        return (<tr key={row.id}>
-                            {this.getGridHeaders().map((col, index) => {
-
-                                return (<td key={index}>{toString(col, row[col.name])}</td>)
-                            })}
-                            <td>
-                                <Link to={`/${this.props.modelMeta.name}/${row.id}`}>Edit</Link>
-                                |
-                                <a href="#" onClick={this.deleteHandler}>Delete</a>
-                            </td>
-                        </tr>)
-                    })}
+                    {
+                        this.props.modelDataList.map((row) => {
+                            return (
+                                <tr key={row.id}>
+                                    {
+                                        this.getGridHeaders().map((col, index) => {
+                                            let modelMeta = col;
+                                            let colData = row[col.name];
+                                            return (<td key={index}>{toString({modelMeta, colData})}</td>)
+                                        })
+                                    }
+                                    <td>
+                                        <Link to={`/${this.props.modelMeta.name}/${row.id}`}>Edit</Link>
+                                        <a href="#" onClick={this.deleteHandler}>Delete</a>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
             </div>

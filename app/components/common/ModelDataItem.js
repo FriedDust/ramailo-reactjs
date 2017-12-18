@@ -8,8 +8,7 @@ export class ModelDataItem extends React.Component {
             let modelMetaTypeList = props.modelMetaTypeList;
             let getModelMeta = props.getModelMeta;
             return (
-                <li key={index}>
-                    <span>{attr.label}:</span>
+                <td key={index}>
                     <ul>
                         {
                             modelDataItem[attr.name].map((childModelDataItem, childIndex) => {
@@ -24,7 +23,7 @@ export class ModelDataItem extends React.Component {
                             })
                         }
                     </ul>
-                </li>
+                </td>
             );
         }
 
@@ -33,31 +32,29 @@ export class ModelDataItem extends React.Component {
                 return null;
             }
             return (
-                <li key={index}>
-                    {attr.label} : {modelDataItem[attr.name]['name']}
-                </li>
+                <td key={index}>
+                    {modelDataItem[attr.name]['name']}
+                </td>
             );
         }
 
         return (
-            <li key={index}>
-                {attr.label} : {modelDataItem[attr.name]}
-            </li>
+            <td key={index}>
+                {modelDataItem[attr.name]}
+            </td>
         );
     }
 
     render() {
         let props = this.props;
         return (
-            <div>
-                <ul>
-                    {
-                        props.modelMeta.attributes.map((attr, index) => {
-                            return this.renderListItem({attr, props, index})
-                        })
-                    }
-                </ul>
-            </div>
+            <tr>
+                {
+                    props.columns.map((attr, index) => {
+                        return this.renderListItem({attr, props, index})
+                    })
+                }
+            </tr>
         );
     }
 }

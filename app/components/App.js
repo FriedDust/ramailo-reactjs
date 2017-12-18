@@ -33,7 +33,7 @@ class App extends React.Component {
         return (
             <div>
                 <header>
-                    <nav className="navbar navbar-expand-md navbar-dark fixed-top">
+                    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
                         <Link className="navbar-brand" to="/">Ramailo</Link>
 
                         <div className="collapse navbar-collapse">
@@ -42,10 +42,14 @@ class App extends React.Component {
                         </div>
                     </nav>
                 </header>
-                <SideNavigation modelMetaList={this.props.modelMetaList}/>
-                <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
-                    {routes}
-                </main>
+                <div className="container-fluid">
+                    <div className="row">
+                        <SideNavigation modelMetaList={this.props.modelMetaList}/>
+                        <main className="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+                            {routes}
+                        </main>
+                    </div>
+                </div>
             </div>
         )
     }

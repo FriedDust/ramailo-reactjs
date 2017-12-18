@@ -1,9 +1,9 @@
 import {connect} from 'react-redux';
+
 import {loadDataItem} from '../../actions/data';
+import {editData} from '../../actions/data';
 
 import {ModelDataForm} from '../common/ModelDataForm';
-import {ModelDataItem} from '../common/ModelDataItem';
-import {editData} from '../../actions/data';
 import {ModelNav} from '../common/ModelNav';
 
 @connect((store, props) => {
@@ -78,9 +78,10 @@ export class ModelDataDetail extends React.Component {
         }
         return (
             <div>
-                <ModelNav modelMeta={this.props.modelMeta}/>
+                <ModelNav
+                    title={`Edit ${this.props.modelMeta.label}`}
+                    modelMeta={this.props.modelMeta}/>
 
-                <h3>Edit {this.props.modelMeta.label}</h3>
                 <ModelDataForm
                     selection={props.modelDataItem}
                     disableForm={this.props.modelMeta.disableAddData}

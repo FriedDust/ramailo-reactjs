@@ -14,11 +14,11 @@ class SideNavigation extends React.Component {
 
         return (
             <nav className="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-                <ul className="nav flex-column">
+                <ul className="nav nav-pills flex-column">
                     {
                         this.props.modelMetaList.map((modelMeta, index)=> {
                             return (
-                                <li key={index}>
+                                <li className="nav-item" key={index}>
                                     <Link to={`/${modelMeta.name}`}>
                                         {modelMeta.label}
                                     </Link>

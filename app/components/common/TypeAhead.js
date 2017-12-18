@@ -48,6 +48,7 @@ class _TypeAhead extends React.Component {
 
         return (
             <div className="form-group">
+                <label htmlFor="">{props.modelMeta.label}</label>
                 <Select.Async
                     multi={false} value={getValue()}
                     onChange={(value) => {
@@ -63,7 +64,7 @@ class _TypeAhead extends React.Component {
                             });
                             let data = { options, complete };
                             callback(null, data);
-                        }, 1000);
+                        }, 100);
                     }}/>
             </div>
         );

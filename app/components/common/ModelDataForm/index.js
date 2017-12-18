@@ -1,6 +1,7 @@
 import {Form, Text, Number} from 'react-form';
 import {connect} from 'react-redux';
 import {TypeAhead} from '../../common/TypeAhead';
+import {ModelChildrenForm} from './ModelChildrenForm';
 
 
 @connect((store, props) => {
@@ -49,10 +50,10 @@ export class ModelDataForm extends React.Component {
                 );
 
             case 'List':
-                // return (
-                //     <ModelChildrenForm field={name} parentModelType={props.modelMeta.type}
-                //                        modelType={childrenType}/>
-                // );
+                return (
+                    <ModelChildrenForm field={name} parentModelType={this.props.modelMeta.type}
+                                       modelType={childrenType}/>
+                );
                 return null;
 
             default:
@@ -95,7 +96,7 @@ export class ModelDataForm extends React.Component {
                             <button type="submit"
                                     onClick={formApi.submitForm}
                                     disabled={props.disableForm}
-                                    className="btn btn-default">
+                                    className="btn btn-primary">
                                 Submit
                             </button>
                         </div>

@@ -64,7 +64,9 @@ export class ModelDataIndex extends React.Component {
         }
         return (
             <div>
-                <ModelNav modelMeta={this.props.modelMeta} />
+                <ModelNav
+                    title={`${this.props.modelMeta.label}`}
+                    modelMeta={this.props.modelMeta} />
                 <ModelDataTable
                     modelMeta={this.props.modelMeta}
                     modelDataList={this.props.modelDataList}/>

@@ -36,9 +36,9 @@ export class ModelDataCreate extends React.Component {
     render() {
         return (
             <div>
-                <ModelNav modelMeta={this.props.modelMeta} />
-
-                <h3>Create {this.props.modelMeta.label}</h3>
+                <ModelNav
+                    title={`Create ${this.props.modelMeta.label}`}
+                    modelMeta={this.props.modelMeta} />
                 <ModelDataForm
                     disableForm={this.props.modelMeta.disableAddData}
                     modelType={this.props.modelMeta.type}

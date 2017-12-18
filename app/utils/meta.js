@@ -1,16 +1,17 @@
-import {connect} from 'react-redux';
 import store from '../store';
 
-export function toString(meta, value) {
+export function toString({modelMeta, colData}) {
+    let state = store.getState();
+    let modeMetaKeys = Object.keys(state.meta.types);
 
-    if (typeof value === 'object') {
-        let state = store.getState();
-        let toStringAttr = state.meta.types[meta.type].stringify;
+    if (modeMetaKeys.indexOf(modelMeta.type) > -1) {
 
-        return value[toStringAttr];
+        let toStringAttr = state.meta.types[modelMeta.type].stringify;
+
+        return colData[toStringAttr];
     }
 
-    return value;
+    return colData;
 }
 
 
