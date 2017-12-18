@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {ModelDataItem} from '../ModelDataItem'
 import {ModelDataForm} from '../ModelDataForm';
 import {loadData, addData} from '../../../actions/data';
+import {getMetaFromType} from "../../../utils/meta";
 
 @connect((store, props) => {
     let modelType = props.modelType;
@@ -23,12 +24,12 @@ class _ModelChildrenForm extends React.Component {
     }
 
     componentDidMount() {
-        let modelMeta = this.props.modelMeta;
-        if (modelMeta) {
-            let modelType = modelMeta.type;
-            let modelName = modelMeta.name;
-            this.props.dispatch(loadData({modelType, modelName}));
-        }
+        // let modelMeta = this.props.modelMeta;
+        // if (modelMeta) {
+        //     let modelType = modelMeta.type;
+        //     let modelName = modelMeta.name;
+        //     this.props.dispatch(loadData({modelType, modelName}));
+        // }
     }
 
     addModelData(modelDataItem) {
@@ -36,6 +37,25 @@ class _ModelChildrenForm extends React.Component {
         const {getValue, setValue} = fieldApi;
         let selection = getValue() || [];
         setValue([...selection, modelDataItem]);
+    }
+
+    getGridHeaders() {
+        let columns = [];
+        this.props.modelMeta.attributes.map((col) => {
+            if (col.isGeneratedValue){
+            } else if (col.type == this.props.parentModelMeta.type){
+            } else{
+                columns.push(col);
+            }
+        });
+
+        return columns;
+    }
+
+    addRow(rowData) {
+        return (
+            <tr></tr>
+        );
     }
 
     getColumns() {
