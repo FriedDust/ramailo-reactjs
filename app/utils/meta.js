@@ -13,4 +13,7 @@ export function toString(meta, value) {
     return value;
 }
 
-
+export function getMetaFromType(type) {
+    let state = store.getState();
+    return state.meta.types[type];
+}

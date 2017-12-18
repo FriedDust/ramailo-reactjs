@@ -1,6 +1,7 @@
 import {Form, Text, Number} from 'react-form';
 import {connect} from 'react-redux';
 import {TypeAhead} from '../../common/TypeAhead';
+import {ModelChildrenForm} from '../ModelDataForm/ModelChildrenForm';
 
 
 @connect((store, props) => {
@@ -15,10 +16,9 @@ export class ModelDataForm extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+
         this.getFormElement = this.getFormElement.bind(this);
         this.renderFormElement = this.renderFormElement.bind(this);
-
-        // this.primitives = ['String', 'Integer', 'LocalDate'];
     }
 
     getFormElement({type, label, name, childrenType}) {
@@ -49,10 +49,14 @@ export class ModelDataForm extends React.Component {
                 );
 
             case 'List':
-                // return (
-                //     <ModelChildrenForm field={name} parentModelType={props.modelMeta.type}
-                //                        modelType={childrenType}/>
-                // );
+                console.log(929292, this.props.modelMeta);
+                return (
+                    <ModelChildrenForm field={name} parentModelType={this.props.modelMeta.type}
+                                       modelType={childrenType}
+                                       parentModelMeta={this.props.modelMeta}
+                                       modelMeta={this.props.modelMeta}
+                                       />
+                );
                 return null;
 
             default:

@@ -1,9 +1,7 @@
 import {FormField} from 'react-form';
-
 import {connect} from 'react-redux';
-
 import {loadData, addData} from '../../actions/data';
-
+import {toString} from "../../utils/meta";
 import Select from 'react-select';
 
 
@@ -34,9 +32,7 @@ class _TypeAhead extends React.Component {
     }
 
     render() {
-
         let props = this.props;
-
         let modelData = props.modelData;
 
         if (!props.modelMeta || !modelData) {
@@ -49,17 +45,23 @@ class _TypeAhead extends React.Component {
         return (
             <div className="form-group">
                 <Select.Async
-                    multi={false} value={getValue()}
+                    multi={false}
+                    value={getValue()}
                     onChange={(value) => {
                         setValue(value);
                     }}
-                    valueKey="id" labelKey={props.modelMeta.stringify}
+                    valueKey="id"
+                    labelKey={props.modelMeta.stringify}
                     loadOptions={(input, callback)=> {
                         input = input.toLowerCase();
                         setTimeout(()=> {
                             let complete = this.props.modelData.getAll();
                             let options = complete.filter((opt)=> {
-                                return ((opt[props.modelMeta.stringify] || '').toLowerCase().indexOf(input) > -1);
+                                // console.log(888, opt);
+                                let temp = toString(props.modelMeta, opt[props.modelMeta.stringify])
+                                //console.log(999, temp, props.modelMeta, opt[props.modelMeta.stringify]);
+                                // return (temp.toLowerCase().indexOf(input) > -1);
+                                return true;
                             });
                             let data = { options, complete };
                             callback(null, data);

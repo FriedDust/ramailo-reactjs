@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {ModelDataItem} from '../ModelDataItem'
 import {ModelDataForm} from '../ModelDataForm';
 import {loadData, addData} from '../../../actions/data';
+import {getMetaFromType} from "../../../utils/meta";
 
 
 @connect((store, props) => {
@@ -19,23 +20,36 @@ class _ModelChildrenForm extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.addModelData = this.addModelData.bind(this);
+        //this.addModelData = this.addModelData.bind(this);
     }
 
     componentDidMount() {
-        let modelMeta = this.props.modelMeta;
-        if (modelMeta) {
-            let modelType = modelMeta.type;
-            let modelName = modelMeta.name;
-            this.props.dispatch(loadData({modelType, modelName}));
-        }
+        // let modelMeta = this.props.modelMeta;
+        // if (modelMeta) {
+        //     let modelType = modelMeta.type;
+        //     let modelName = modelMeta.name;
+        //     this.props.dispatch(loadData({modelType, modelName}));
+        // }
     }
 
-    addModelData(modelDataItem) {
-        const {fieldApi} = this.props;
-        const {getValue, setValue} = fieldApi;
-        let selection = getValue() || [];
-        setValue([...selection, modelDataItem]);
+    // addModelData(modelDataItem) {
+    //     const {fieldApi} = this.props;
+    //     const {getValue, setValue} = fieldApi;
+    //     let selection = getValue() || [];
+    //     setValue([...selection, modelDataItem]);
+    // }
+
+    getGridHeaders() {
+        let columns = [];
+        this.props.modelMeta.attributes.map((col) => {
+            if (col.isGeneratedValue){
+            } else if (col.type == this.props.parentModelMeta.type){
+            } else{
+                columns.push(col);
+            }
+        });
+
+        return columns;
     }
 
     render() {
@@ -53,25 +67,19 @@ class _ModelChildrenForm extends React.Component {
         return (
             <div>
                 <h2>{props.modelMeta.label}</h2>
-                <ul>
-                    {
-                        selection.map((obj, index) => {
-                            return (
-                                <ModelDataItem modelMeta={modelMeta}
-                                               modelDataItem={obj}
-                                               parentModelType={parentModelType}
-                                               modelMetaTypeList={modelMetaTypeList}
-                                               index={index}/>
-                            )
-                        })
-                    }
-                </ul>
-                <ModelDataForm
-                    isChildForm={true}
-                    parentModelType={props.parentModelType}
-                    disableForm={this.props.modelMeta.disableAddData}
-                    modelType={props.modelMeta.type}
-                    onSubmit={this.addModelData}/>
+                <table className="table table-striped table-bordered table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            {this.getGridHeaders().map((col, index) => {
+                                return (<th key={index}>{col.label}</th>)
+                            }
+                            )}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         );
     }
