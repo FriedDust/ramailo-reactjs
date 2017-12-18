@@ -6,26 +6,25 @@ export class ModelDataTable extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.columns = [];
         this.deleteHandler = this.deleteHandler.bind(this);
-
-        this.mapGridHeaders();
     }
 
-    mapGridHeaders() {
+    getGridHeaders() {
+        let columns = [];
         if (this.props.modelMeta.gridHeaders) {
             this.props.modelMeta.attributes.forEach((attr)=> {
                 if(this.props.modelMeta.gridHeaders.indexOf(attr.name) > -1) {
-                    this.columns.push(attr);
+                    columns.push(attr);
                 }
             })
         } else {
             this.props.modelMeta.attributes.forEach((attr)=> {
                 if(attr.name == this.props.modelMeta.stringify) {
-                    this.columns.push(attr);
+                    columns.push(attr);
                 }
             })
         }
+        return columns;
     }
 
     deleteHandler(e) {
@@ -47,7 +46,7 @@ export class ModelDataTable extends React.Component {
                 <table className="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                         <tr>
-                            {this.columns.map((col, index) => {
+                            {this.getGridHeaders().map((col, index) => {
                                 return (<th key={index}>{col.label}</th>)
                             }
                             )}
@@ -57,7 +56,7 @@ export class ModelDataTable extends React.Component {
                     <tbody>
                     {this.props.modelDataList.map((row) => {
                         return (<tr key={row.id}>
-                            {this.columns.map((col, index) => {
+                            {this.getGridHeaders().map((col, index) => {
 
                                 return (<td key={index}>{toString(col, row[col.name])}</td>)
                             })}
