@@ -21,6 +21,11 @@ class _ModelChildrenForm extends React.Component {
         super(props, context);
         this.addModelData = this.addModelData.bind(this);
         this.getColumns = this.getColumns.bind(this);
+        this.toggleChildModelForm = this.toggleChildModelForm.bind(this);
+
+        this.state = {
+            childModelFormActive: false
+        };
     }
 
     componentDidMount() {
@@ -37,14 +42,15 @@ class _ModelChildrenForm extends React.Component {
         const {getValue, setValue} = fieldApi;
         let selection = getValue() || [];
         setValue([...selection, modelDataItem]);
+        this.toggleChildModelForm(false)();
     }
 
     getGridHeaders() {
         let columns = [];
         this.props.modelMeta.attributes.map((col) => {
-            if (col.isGeneratedValue){
-            } else if (col.type == this.props.parentModelMeta.type){
-            } else{
+            if (col.isGeneratedValue) {
+            } else if (col.type == this.props.parentModelMeta.type) {
+            } else {
                 columns.push(col);
             }
         });
@@ -52,16 +58,19 @@ class _ModelChildrenForm extends React.Component {
         return columns;
     }
 
-    addRow(rowData) {
-        return (
-            <tr></tr>
-        );
+    toggleChildModelForm(status) {
+        return () => {
+            this.setState({
+                childModelFormActive: status
+            });
+        }
     }
 
     getColumns() {
         let columns = [];
         this.props.modelMeta.attributes.forEach((attr) => {
-            if (this.props.parentModelType === attr.type) {
+            if (this.props.parentModelType === attr.type ||
+                attr.isPrimaryKey) {
                 return;
             }
             columns.push(attr);
@@ -84,7 +93,11 @@ class _ModelChildrenForm extends React.Component {
 
         return (
             <div>
-                <label>{props.modelMeta.label} <button className="btn btn-secondary btn-success">Add</button></label>
+                <label>{props.modelMeta.label}</label>
+                <button
+                    onClick={this.toggleChildModelForm(true)}
+                    className="btn btn-secondary btn-success btn-sm">Add
+                </button>
                 <table className="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                     <tr>
@@ -110,30 +123,35 @@ class _ModelChildrenForm extends React.Component {
                     }
                     </tbody>
                 </table>
-                <div className="modal show">
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Modal title</h5>
-                                <button type="button" className="close" aria-label="Close">
-                                    <span>&times;</span>
-                                </button>
+
+                {
+                    (this.state.childModelFormActive) ?
+                        <div className="modal show"
+                             style={{display: 'block'}}>
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">{props.modelMeta.label}</h5>
+                                        <button type="button"
+                                                onClick={this.toggleChildModelForm(false)}
+                                                className="close" aria-label="Close">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <ModelDataForm
+                                            isChildForm={true}
+                                            parentModelType={props.parentModelType}
+                                            disableForm={this.props.modelMeta.disableAddData}
+                                            modelType={props.modelMeta.type}
+                                            onSubmit={this.addModelData}/>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="modal-body">
-                                {/*<ModelDataForm*/}
-                                    {/*isChildForm={true}*/}
-                                    {/*parentModelType={props.parentModelType}*/}
-                                    {/*disableForm={this.props.modelMeta.disableAddData}*/}
-                                    {/*modelType={props.modelMeta.type}*/}
-                                    {/*onSubmit={this.addModelData}/>*/}
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </div> : null
+                }
+
+
             </div>
         );
     }

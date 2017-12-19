@@ -25,6 +25,9 @@ export class ModelDataForm extends React.Component {
     getFormElement({type, label, name, childrenType}) {
 
         if (this.props.modelMetaTypeList.indexOf(type) > -1) {
+            if(type === this.props.parentModelType) {
+                return null;
+            }
             return (
                 <TypeAhead field={name} modelType={type}/>
             );
@@ -96,12 +99,14 @@ export class ModelDataForm extends React.Component {
                             {
                                 props.modelMeta.attributes.map((column, index) => this.renderFormElement(column, index))
                             }
-                            <button type="submit"
-                                    onClick={formApi.submitForm}
-                                    disabled={props.disableForm}
-                                    className="btn btn-primary">
-                                Submit
-                            </button>
+                            <div className="d-flex flex-row-reverse">
+                                <button type="submit"
+                                        onClick={formApi.submitForm}
+                                        disabled={props.disableForm}
+                                        className="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
                     )}
                 </Form>
