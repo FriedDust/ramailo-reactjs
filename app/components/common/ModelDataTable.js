@@ -11,7 +11,7 @@ export class ModelDataTable extends React.Component {
 
     getGridHeaders() {
         let columns = [];
-        if (this.props.modelMeta.gridHeaders) {
+        if (this.props.modelMeta.gridHeaders && this.props.modelMeta.gridHeaders.length > 0) {
             this.props.modelMeta.attributes.forEach((attr) => {
                 if (this.props.modelMeta.gridHeaders.indexOf(attr.name) > -1) {
                     columns.push(attr);
