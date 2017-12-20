@@ -1,6 +1,14 @@
 import {Link} from "react-router-dom";
 import {toString} from "../../utils/meta";
+import {connect} from 'react-redux';
 
+
+@connect((store, props) => {
+    let modelMetas = store.meta.types;
+    return {
+        modelMetas
+    }
+})
 export class ModelDataTable extends React.Component {
 
     constructor(props, context) {
@@ -40,12 +48,13 @@ export class ModelDataTable extends React.Component {
                 <div>Loading</div>
             )
         }
+        let gridHeaders = this.getGridHeaders();
         return (
             <div>
                 <table className="table table-striped table-bordered table-condensed table-hover">
                     <thead>
                     <tr>
-                        {this.getGridHeaders().map((col, index) => {
+                        {gridHeaders.map((col, index) => {
                                 return (<th key={index}>{col.label}</th>)
                             }
                         )}
@@ -60,8 +69,8 @@ export class ModelDataTable extends React.Component {
                                     {
                                         this.getGridHeaders().map((col, index) => {
                                             let modelMeta = col;
-                                            let colData = row[col.name];
-                                            return (<td key={index}>{toString({modelMeta, colData})}</td>)
+                                            let modelMetas = this.props.modelMetas;
+                                            return (<td key={index}>{toString({modelMeta, row, modelMetas})}</td>)
                                         })
                                     }
                                     <td>
@@ -71,6 +80,12 @@ export class ModelDataTable extends React.Component {
                                 </tr>
                             )
                         })
+                    }
+                    {
+                        this.props.modelDataList.length === 0 ?
+                            <tr>
+                                <td colSpan={gridHeaders.length+1}>No records found</td>
+                            </tr> : null
                     }
                     </tbody>
                 </table>

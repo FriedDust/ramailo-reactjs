@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 import {TypeAhead} from '../../common/TypeAhead';
 import {ModelChildrenForm} from '../ModelDataForm/ModelChildrenForm';
 
-
-
 @connect((store, props) => {
 
     let modelType = props.modelType;
@@ -90,7 +88,7 @@ export class ModelDataForm extends React.Component {
             <div>
                 <Form
                     onSubmit={(submittedValue) => {
-                        props.onSubmit(submittedValue);
+                        props.onSubmit(submittedValue, props.isEdit);
                     }}
                     defaultValues={props.selection || {}}
                 >

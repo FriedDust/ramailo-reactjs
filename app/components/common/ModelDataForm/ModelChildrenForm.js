@@ -19,12 +19,15 @@ class _ModelChildrenForm extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.addModelData = this.addModelData.bind(this);
+        this.submitChildModelData = this.submitChildModelData.bind(this);
         this.getColumns = this.getColumns.bind(this);
         this.toggleChildModelForm = this.toggleChildModelForm.bind(this);
+        this.toggleEditForm = this.toggleEditForm.bind(this);
 
         this.state = {
-            childModelFormActive: false
+            childModelFormActive: false,
+            childModelFormObj: null,
+            childModelArrayIndex: null
         };
     }
 
@@ -37,11 +40,16 @@ class _ModelChildrenForm extends React.Component {
         // }
     }
 
-    addModelData(modelDataItem) {
+    submitChildModelData(modelDataItem, isEdit) {
         const {fieldApi} = this.props;
         const {getValue, setValue} = fieldApi;
         let selection = getValue() || [];
-        setValue([...selection, modelDataItem]);
+        if(!isEdit) {
+            selection = [...selection, modelDataItem];
+        } else {
+            selection[this.state.childModelArrayIndex] = modelDataItem;
+        }
+        setValue(selection);
         this.toggleChildModelForm(false)();
     }
 
@@ -61,7 +69,19 @@ class _ModelChildrenForm extends React.Component {
     toggleChildModelForm(status) {
         return () => {
             this.setState({
-                childModelFormActive: status
+                childModelFormActive: status,
+                childModelFormObj: null,
+                childModelArrayIndex: null
+            });
+        }
+    }
+
+    toggleEditForm(status, {obj, index}) {
+        return () => {
+            this.setState({
+                childModelFormActive: status,
+                childModelFormObj: obj,
+                childModelArrayIndex: index
             });
         }
     }
@@ -112,7 +132,7 @@ class _ModelChildrenForm extends React.Component {
                     {
                         selection.map((obj, index) => {
                             return (
-                                <ModelDataItem key={index}
+                                <ModelDataItem key={index} onClick={this.toggleEditForm(true, {obj, index})}
                                                modelMeta={modelMeta} columns={columns}
                                                modelDataItem={obj}
                                                parentModelType={parentModelType}
@@ -141,10 +161,12 @@ class _ModelChildrenForm extends React.Component {
                                     <div className="modal-body">
                                         <ModelDataForm
                                             isChildForm={true}
+                                            isEdit={!!this.state.childModelFormObj}
+                                            selection={this.state.childModelFormObj}
                                             parentModelType={props.parentModelType}
                                             disableForm={this.props.modelMeta.disableAddData}
                                             modelType={props.modelMeta.type}
-                                            onSubmit={this.addModelData}/>
+                                            onSubmit={this.submitChildModelData}/>
                                     </div>
                                 </div>
                             </div>

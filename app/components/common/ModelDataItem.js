@@ -48,7 +48,7 @@ export class ModelDataItem extends React.Component {
     render() {
         let props = this.props;
         return (
-            <tr>
+            <tr onClick={this.props.onClick}>
                 {
                     props.columns.map((attr, index) => {
                         return this.renderListItem({attr, props, index})
