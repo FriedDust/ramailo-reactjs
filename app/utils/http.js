@@ -1,4 +1,17 @@
 import axios from 'axios';
+import swal from 'sweetalert2';
+
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    let errorResponse = error.response;
+    swal({
+        title: `${errorResponse.status} ${errorResponse.statusText}`,
+        text: errorResponse.data.error,
+        type: 'error'
+    });
+    return Promise.reject(error);
+});
 
 export function post(uri, data) {
   return axios({
@@ -34,10 +47,14 @@ export function get(uri, params = {}, headers = {'Content-Type': 'application/js
   });
 }
 
-export function del(uri, data) {
+export function destroy(uri, data) {
   return axios({
     method: 'delete',
     data: data,
     url: uri
   });
+}
+
+export function axiosRequest(params) {
+    return axios(params);
 }

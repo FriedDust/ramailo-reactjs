@@ -80,6 +80,7 @@ export class ModelDataDetail extends React.Component {
             <div>
                 <ModelNav
                     title={`Edit ${this.props.modelMeta.label}`}
+                    modelDataItem={props.modelDataItem}
                     modelMeta={this.props.modelMeta}/>
 
                 <ModelDataForm

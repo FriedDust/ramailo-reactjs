@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 
-import {loadData, addData} from '../../actions/data';
+import {loadData, deleteData} from '../../actions/data';
 import {ModelNav} from '../common/ModelNav';
 import {ModelDataTable} from '../common/ModelDataTable';
 
@@ -25,7 +25,7 @@ export class ModelDataIndex extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {};
-        this.addModelData = this.addModelData.bind(this);
+        this.deleteModelData = this.deleteModelData.bind(this);
     }
 
     componentDidMount() {
@@ -50,10 +50,14 @@ export class ModelDataIndex extends React.Component {
         }
     }
 
-    addModelData(modelDataItem) {
-        let modelName = this.props.match.params.modelName;
-        let modelType = this.props.modelMetaNameTypeMap[modelName];
-        this.props.dispatch(addData({modelName, modelType, modelDataItem}));
+    deleteModelData(modelDataItem) {
+        return () => {
+            if (confirm("Are you sure you want to delete ?")) {
+                let modelName = this.props.match.params.modelName;
+                let modelType = this.props.modelMetaNameTypeMap[modelName];
+                this.props.dispatch(deleteData({modelName, modelType, modelDataItem}));
+            }
+        }
     }
 
     render() {
@@ -66,8 +70,9 @@ export class ModelDataIndex extends React.Component {
             <div>
                 <ModelNav
                     title={`${this.props.modelMeta.label}`}
-                    modelMeta={this.props.modelMeta} />
+                    modelMeta={this.props.modelMeta}/>
                 <ModelDataTable
+                    deleteModelData={this.deleteModelData}
                     modelMeta={this.props.modelMeta}
                     modelDataList={this.props.modelDataList}/>
             </div>

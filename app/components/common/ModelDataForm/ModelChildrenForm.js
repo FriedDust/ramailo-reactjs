@@ -57,7 +57,7 @@ class _ModelChildrenForm extends React.Component {
         let columns = [];
         this.props.modelMeta.attributes.map((col) => {
             if (col.isGeneratedValue) {
-            } else if (col.type == this.props.parentModelMeta.type) {
+            } else if (col.type == this.props.parentModelType) {
             } else {
                 columns.push(col);
             }

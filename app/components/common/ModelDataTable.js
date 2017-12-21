@@ -13,8 +13,6 @@ export class ModelDataTable extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-
-        this.deleteHandler = this.deleteHandler.bind(this);
     }
 
     getGridHeaders() {
@@ -33,13 +31,6 @@ export class ModelDataTable extends React.Component {
             })
         }
         return columns;
-    }
-
-    deleteHandler(e) {
-        if (confirm('Are you sure?')) {
-            console.log("TODO");
-        }
-        return false;
     }
 
     render() {
@@ -75,7 +66,7 @@ export class ModelDataTable extends React.Component {
                                     }
                                     <td>
                                         <Link to={`/${this.props.modelMeta.name}/${row.id}`}>Edit</Link>
-                                        <a href="#" onClick={this.deleteHandler}>Delete</a>
+                                        <a href="#" onClick={this.props.deleteModelData(row)}>Delete</a>
                                     </td>
                                 </tr>
                             )

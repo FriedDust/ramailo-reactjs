@@ -18,9 +18,9 @@ export default function data(state = {}, action) {
                 let payloadItem = payload[k];
                 _state[payloadItem.type] = {
                     byId: {},
-                    dataIds: [],
                     getAll(filter) {
-                        return this.dataIds.map((id)=> this.byId[id]);
+                        let dataIds = Object.keys(this.byId);
+                        return dataIds.map((id)=> this.byId[id]);
                     }
                 };
             }
@@ -28,19 +28,17 @@ export default function data(state = {}, action) {
         }
 
         case "LOAD_DATA": {
-            let dataIds = [];
             let byId = {};
             payloadData.forEach((d) => {
                 byId[d.id] = d;
-                dataIds.push(d.id);
             });
             return {
                 ...state, ...{
                     [payload.modelType]: {
                         byId,
-                        dataIds,
                         getAll(filter) {
-                            return this.dataIds.map((id)=> this.byId[id]);
+                            let dataIds = Object.keys(this.byId);
+                            return dataIds.map((id)=> this.byId[id]);
                         }
                     }
                 }
@@ -50,9 +48,12 @@ export default function data(state = {}, action) {
         case "UPDATE_DATA_ITEM": {
             let newStateData = {...state[payload.modelType]};
             newStateData['byId'][payloadData.id] = payloadData;
-            if(newStateData['dataIds'].indexOf(payloadData.id) === -1) {
-                newStateData['dataIds'].push(payloadData.id);
-            }
+            return {...state, ...{[payload.modelType]: newStateData}};
+        }
+
+        case "DELETE_DATA_ITEM": {
+            let newStateData = {...state[payload.modelType]};
+            delete newStateData['byId'][payloadData.id];
             return {...state, ...{[payload.modelType]: newStateData}};
         }
 

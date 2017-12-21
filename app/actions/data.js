@@ -45,6 +45,24 @@ export function editData({modelType, modelName, modelDataItem}, callback) {
     }
 }
 
+export function deleteData({modelType, modelName, modelDataItem}, callback) {
+    return (dispatch) => {
+        dispatch({type: "DISABLE_ADD_DATA", payload: {modelType}});
+        httpUtil.destroy(`http://localhost:8081/api/${modelName}/${modelDataItem.id}`)
+            .then((response) => {
+                dispatch({
+                    type: "DELETE_DATA_ITEM",
+                    payload: {modelType, data: modelDataItem}
+                });
+                dispatch({type: "ENABLE_ADD_DATA", payload: {modelType}});
+                if (callback) callback(response);
+            })
+            .catch((err)=> {
+                alert("Something went wrong");
+            });
+    }
+}
+
 export function loadDataItem({modelType, modelName, modelDataId}, callback) {
     return (dispatch) => {
         httpUtil.get(`http://localhost:8081/api/${modelName}/${modelDataId}`)
