@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 
-import {ModelDataForm} from '../common/ModelDataForm';
+import {DataForm} from '../common/DataForm';
 import {addData} from '../../actions/data';
 import {ModelNav} from '../common/ModelNav';
 
@@ -39,9 +39,9 @@ export class ModelDataCreate extends React.Component {
                 <ModelNav
                     title={`Create ${this.props.modelMeta.label}`}
                     modelMeta={this.props.modelMeta} />
-                <ModelDataForm
+                <DataForm
                     disableForm={this.props.modelMeta.disableAddData}
-                    modelType={this.props.modelMeta.type}
+                    formMeta={this.props.modelMeta}
                     onSubmit={this.addModelData}/>
             </div>
         )

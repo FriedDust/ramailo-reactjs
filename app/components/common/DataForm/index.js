@@ -1,17 +1,13 @@
 import {Form, Text, Number} from 'react-form';
 import {connect} from 'react-redux';
 import {TypeAhead} from '../../common/TypeAhead';
-import {ModelChildrenForm} from '../ModelDataForm/ModelChildrenForm';
+import {ModelChildrenForm} from './ModelChildrenForm';
 
 @connect((store, props) => {
-
-    let modelType = props.modelType;
-    let modelMeta = store.meta.types[modelType];
     let modelMetaTypeList = Object.keys(store.meta.types);
-
-    return {modelMeta, modelMetaTypeList};
+    return {modelMetaTypeList};
 })
-export class ModelDataForm extends React.Component {
+export class DataForm extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -52,7 +48,7 @@ export class ModelDataForm extends React.Component {
 
             case 'List':
                 return (
-                    <ModelChildrenForm field={name} parentModelType={this.props.modelMeta.type}
+                    <ModelChildrenForm field={name} parentModelType={this.props.formMeta.type}
                                        modelType={childrenType}/>
                 );
                 return null;
@@ -92,7 +88,7 @@ export class ModelDataForm extends React.Component {
                     { formApi => (
                         <div className="form-group">
                             {
-                                props.modelMeta.attributes.map((column, index) => this.renderFormElement(column, index))
+                                props.formMeta.attributes.map((column, index) => this.renderFormElement(column, index))
                             }
                             <div className="d-flex flex-row-reverse">
                                 <button type="submit"

@@ -2,7 +2,7 @@ import {FormField} from 'react-form';
 import {connect} from 'react-redux';
 
 import {ModelDataItem} from '../ModelDataItem'
-import {ModelDataForm} from '../ModelDataForm';
+import {DataForm} from '../DataForm';
 import {loadData, addData} from '../../../actions/data';
 import {getMetaFromType} from "../../../utils/meta";
 
@@ -159,13 +159,13 @@ class _ModelChildrenForm extends React.Component {
                                         </button>
                                     </div>
                                     <div className="modal-body">
-                                        <ModelDataForm
+                                        <DataForm
                                             isChildForm={true}
                                             isEdit={!!this.state.childModelFormObj}
                                             selection={this.state.childModelFormObj}
                                             parentModelType={props.parentModelType}
                                             disableForm={this.props.modelMeta.disableAddData}
-                                            modelType={props.modelMeta.type}
+                                            formMeta={props.modelMeta}
                                             onSubmit={this.submitChildModelData}/>
                                     </div>
                                 </div>

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {loadDataItem} from '../../actions/data';
 import {editData} from '../../actions/data';
 
-import {ModelDataForm} from '../common/ModelDataForm';
+import {DataForm} from '../common/DataForm';
 import {ModelNav} from '../common/ModelNav';
 
 @connect((store, props) => {
@@ -83,10 +83,10 @@ export class ModelDataDetail extends React.Component {
                     modelDataItem={props.modelDataItem}
                     modelMeta={this.props.modelMeta}/>
 
-                <ModelDataForm
+                <DataForm
                     selection={props.modelDataItem}
                     disableForm={this.props.modelMeta.disableAddData}
-                    modelType={this.props.modelMeta.type}
+                    formMeta={this.props.modelMeta}
                     onSubmit={this.editModelData}/>
             </div>
         )
