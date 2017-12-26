@@ -1,3 +1,6 @@
+
+
+
 export default function meta(state = {
     types: {},
     nameTypeMap: {},
@@ -37,7 +40,6 @@ export default function meta(state = {
                 types[payloadItem.type] = payloadItem;
                 nameTypeMap[payloadItem.name] = payloadItem.type;
             }
-
             return {
                 ...state,
                 types,

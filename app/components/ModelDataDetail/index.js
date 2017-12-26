@@ -13,8 +13,8 @@ import {ModelNav} from '../common/ModelNav';
     let modelDataId = props.match.params.modelDataId;
 
     let modelMeta = store.meta.types[modelType];
-    let modelData = store.data[modelType];
-    let modelDataItem = modelData ? modelData.byId[modelDataId] : null;
+    let modelData = store[modelType];
+    let modelDataItem = modelData.byId[modelDataId];
 
     let modelMetaTypeList = Object.keys(store.meta.types);
 

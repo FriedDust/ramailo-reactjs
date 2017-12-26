@@ -1,8 +1,9 @@
-import  {combineReducers} from 'redux';
+import {combineReducers} from 'redux';
 import meta from './meta';
-import data from './data';
 
-export default combineReducers({
-    meta,
-    data
-})
+export default function createReducer(asyncReducers) {
+    return combineReducers({
+        meta,
+        ...asyncReducers
+    });
+}

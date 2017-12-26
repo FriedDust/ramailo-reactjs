@@ -6,7 +6,6 @@ import {loadMeta} from '../actions/meta'
 import SideNavigation from './common/SideNavigation';
 import routes from '../routes';
 
-
 @connect((store) => {
     return {
         modelMetaLoaded: store.meta.modelMetaLoaded,
@@ -15,7 +14,7 @@ import routes from '../routes';
 })
 class App extends React.Component {
 
-    constructor(props,context){
+    constructor(props, context) {
         super(props, context);
     }
 
@@ -24,7 +23,7 @@ class App extends React.Component {
     }
 
     render() {
-        if(!this.props.modelMetaLoaded) {
+        if (!this.props.modelMetaLoaded) {
             return (
                 <div>Loading ...</div>
             )

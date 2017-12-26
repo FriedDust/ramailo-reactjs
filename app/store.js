@@ -2,8 +2,17 @@ import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
-import reducer from './reducers';
-
 const middleware = applyMiddleware(thunk, promise(), logger);
 
-export default createStore(reducer, middleware);
+import createReducer from './reducers';
+
+const store = createStore(createReducer(), middleware);
+store.asyncReducers = {};
+
+export const _store = store;
+export default store;
+
+export function injectAsyncReducer(name, asyncReducer) {
+    store.asyncReducers[name] = asyncReducer;
+    store.replaceReducer(createReducer(store.asyncReducers));
+}

@@ -11,12 +11,14 @@ import {ModelDataTable} from '../common/ModelDataTable';
     let modelType = modelMetaNameTypeMap[modelName];
 
     let modelMeta = store.meta.types[modelType];
-    let modelData = store.data[modelType];
+    let modelData = store[modelType];
 
-    let modelDataList = modelData ? modelData.getAll() : [];
+    let modelDataPage = modelData.getPage(modelData.pagination.currentPage);
+    let modelDataList = modelData.getDataByIds(modelDataPage.ids);
     return {
         modelMeta,
         modelMetaNameTypeMap,
+        modelDataPage,
         modelDataList
     }
 })
