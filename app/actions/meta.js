@@ -1,6 +1,6 @@
 import * as httpUtil from '../utils/http';
 
-import {injectAsyncReducer, _store} from '../store';
+import {injectAsyncReducer} from '../store';
 import data from '../reducers/data';
 
 export function loadMeta(callback) {

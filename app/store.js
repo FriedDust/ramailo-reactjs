@@ -9,10 +9,9 @@ import createReducer from './reducers';
 const store = createStore(createReducer(), middleware);
 store.asyncReducers = {};
 
-export const _store = store;
-export default store;
-
 export function injectAsyncReducer(name, asyncReducer) {
     store.asyncReducers[name] = asyncReducer;
     store.replaceReducer(createReducer(store.asyncReducers));
 }
+
+export default store;
