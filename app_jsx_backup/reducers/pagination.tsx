@@ -1,6 +1,10 @@
-export default function pagination(state = {
+interface Action {
+    type: string
+}
+
+export default function pagination(state: object = {
     test: 123
-}, action) {
+}, action: Action) {
 
     switch (action.type) {
 

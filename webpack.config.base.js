@@ -9,13 +9,16 @@ module.exports = {
     devtool: 'source-map',
     entry: {
         app: [
-            APP_PATH + "/app.js"
+            APP_PATH + "/index.tsx"
         ]
     },
     output: {
         path: BUILD_PATH,
         filename: "app.js",
         publicPath: '/'
+    },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
     },
     devServer: {
         contentBase: './build',
@@ -29,9 +32,9 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loaders: ["babel-loader"],
+                test: /\.tsx?$/,
+                loader: "ts-loader",
+                exclude: /node_modules/
             },
             {
                 test: /\.(ttf|otf|eot|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -55,12 +58,6 @@ module.exports = {
             title: 'Ramailo UI',
             filename: 'index.html',
             template: 'index.ejs'
-        }),
-        new webpack.ProvidePlugin({
-            React: "react",
-            ReactDOM: "react-dom",
-            $: "jquery",
-            jQuery: "jquery"
-        }),
+        })
     ]
 };

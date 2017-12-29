@@ -1,13 +1,16 @@
+interface MetaState {
+    types: object,
+    nameTypeMap: object,
+    modelMetaLoaded: boolean
+}
 
-
-
-export default function meta(state = {
+export default function meta(state: MetaState = {
     types: {},
     nameTypeMap: {},
     modelMetaLoaded: false,
-    getAll(filter) {
+    getAll() {
         let keys = Object.keys(this.types);
-        return keys.map((k)=> this.types[k]);
+        return keys.map((k: string) => this.types[k]);
     },
     getModelMeta() {
         return (modelType) => {
