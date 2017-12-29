@@ -36,11 +36,25 @@ class DataIndex extends React.Component<DataIndexProps> {
     }
 
     componentDidMount() {
-        if (this.props.meta) {
+        let meta = this.props.meta;
+        if (meta) {
             this.props.loadData({
-                name: this.props.meta.name,
-                type: this.props.meta.type
+                name: meta.name,
+                type: meta.type
             });
+        }
+    }
+
+    componentWillReceiveProps(nextProps: DataIndexProps) {
+        let meta = this.props.meta;
+        if(meta) {
+            if (meta.type !== nextProps.meta.type) {
+                this.props.loadData({
+                    name: nextProps.meta.name,
+                    type: nextProps.meta.type
+                });
+
+            }
         }
     }
 

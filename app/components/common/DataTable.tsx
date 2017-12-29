@@ -37,7 +37,7 @@ function getGridHeaders(meta: MetaInterfaces.MetaResourceProps) {
         })
     } else {
         meta.attributes.forEach((attr) => {
-            if (attr.name == this.props.modelMeta.stringify) {
+            if (attr.name == meta.stringify) {
                 columns.push(attr);
             }
         })
