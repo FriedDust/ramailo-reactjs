@@ -1,13 +1,15 @@
 import * as React from 'react';
-import {Dispatch} from 'redux';
+import {Dispatch, bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-import * as MetaSelectors from '../../selectors/Meta';
+import * as MetaSelectors from '../../selectors/meta';
 
-import * as StoreInterfaces from '../../interfaces/Store';
-import * as MetaInterfaces from '../../interfaces/Meta';
-import * as DataInterfaces from '../../interfaces/Data';
+import * as StoreInterfaces from '../../interfaces/store';
+import * as MetaInterfaces from '../../interfaces/meta';
+import * as DataInterfaces from '../../interfaces/data';
+
+import * as DataActions from '../../actions/data';
 
 export function stringifyRow({attrMeta, row}: {
     attrMeta: MetaInterfaces.MetaAttributeProps,
@@ -45,13 +47,22 @@ function getGridHeaders(meta: MetaInterfaces.MetaResourceProps) {
     return columns;
 }
 
-interface DataTableProps {
+interface OwnProps {
     meta: MetaInterfaces.MetaResourceProps,
-    findMeta?: MetaSelectors.MetaSelectorProps, //TODO: Separate dispatch props
-    dataList: Array<DataInterfaces.DataResourceProps>,
+    dataList: Array<DataInterfaces.DataResourceProps>
 }
 
-const DataTable =  (props: DataTableProps) => {
+interface StoreProps {
+    findMeta: MetaSelectors.MetaSelectorProps, //TODO: Separate dispatch props
+}
+
+interface DispatchProps {
+    deleteData: DataActions.DeleteDataThunkProps
+}
+
+type DataTableProps = OwnProps & StoreProps & DispatchProps;
+
+const DataTable = (props: DataTableProps) => {
 
     let gridHeaders = getGridHeaders(props.meta);
 
@@ -84,7 +95,11 @@ const DataTable =  (props: DataTableProps) => {
                                 }
                                 <td>
                                     <Link to={`/${props.meta.name}/${row.id}`}>Edit</Link>
-                                    {/*<a href="#" onClick={props.deleteModelData(row)}>Delete</a>*/}
+                                    <a href="#"
+                                       onClick={() => props.deleteData({
+                                           type: props.meta.type,
+                                           name: props.meta.name
+                                       }, {id: row.id})}>Delete</a>
                                 </td>
                             </tr>
                         )
@@ -109,7 +124,9 @@ function mapStateToProps(store: StoreInterfaces.StoreStateProps) {
 }
 
 function mapDispatchToProps(dispatch: Dispatch<StoreInterfaces.StoreStateProps>) {
-    return {};
+    return {
+        deleteData: bindActionCreators(DataActions.deleteData, dispatch)
+    };
 }
 
-export default connect<{}, {}, DataTableProps>(mapStateToProps, mapDispatchToProps)(DataTable);
+export default connect<StoreProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(DataTable);

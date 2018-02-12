@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 
-import * as StoreInterfaces from '../interfaces/Store';
-import * as DataInterfaces from '../interfaces/Data';
+import * as StoreInterfaces from '../interfaces/store';
+import * as DataInterfaces from '../interfaces/data';
 
 function findData(metaType: string) {
     return function (store: StoreInterfaces.StoreStateProps) {
@@ -9,7 +9,7 @@ function findData(metaType: string) {
     };
 }
 
-export type DataListSelectorProps = (metaType: string) => void;
+export type DataListSelectorProps = (metaType: string) => Array<DataInterfaces.DataResourceProps>;
 
 export const findDataList = function (store: StoreInterfaces.StoreStateProps) {
     const dataListSelector: DataListSelectorProps = function (metaType) {

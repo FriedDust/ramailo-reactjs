@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect'
 
-import * as StoreInterfaces from '../interfaces/Store';
-import * as MetaInterfaces from '../interfaces/Meta';
+import * as StoreInterfaces from '../interfaces/store';
+import * as MetaInterfaces from '../interfaces/meta';
 
 export const metaSelector = (state: StoreInterfaces.StoreStateProps) => state.meta;
 
@@ -13,6 +13,11 @@ export const metaTypesSelector = createSelector(
 export const metaTypeListSelector = createSelector(
     metaSelector,
     (meta: MetaInterfaces.MetaStoreProps) => Object.keys(meta.types).map((metaType: string) => meta.types[metaType])
+);
+
+export const metaTypeKeyListSelector = createSelector(
+    metaSelector,
+    (meta: MetaInterfaces.MetaStoreProps) => Object.keys(meta.types)
 );
 
 export type MetaSelectorProps = (param : {name?: string, type?: string}) => MetaInterfaces.MetaResourceProps;

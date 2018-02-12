@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 
-import * as MetaInterfaces from '../../interfaces/Meta';
+import * as MetaInterfaces from '../../interfaces/meta';
 
 export default (props: {
     metaList: Array<MetaInterfaces.MetaResourceProps>

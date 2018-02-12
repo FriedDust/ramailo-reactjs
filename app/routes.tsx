@@ -6,12 +6,13 @@ import {Route, Switch} from 'react-router-dom'
 // import {ModelDataCreate} from './components/ModelDataCreate';
 
 import DataIndex from './components/DataIndex';
+import DataCreate from './components/DataCreate';
 
 const routes = (
     <Switch>
         {/*<Route path={`/meta`} component={ModelMetaList}/>*/}
-        {/*<Route path={`/:modelName/create`} component={ModelDataCreate}/>*/}
         {/*<Route path={`/:modelName/:modelDataId`} component={ModelDataDetail}/>*/}
+        <Route path={`/:modelName/create`} component={DataCreate}/>
         <Route path={`/:modelName`} component={DataIndex}/>
     </Switch>
 );

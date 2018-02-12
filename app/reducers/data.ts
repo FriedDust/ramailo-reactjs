@@ -21,10 +21,27 @@ export default function createDataReducer(metaType: string) {
 
             case modelPrefix + DataActions.RECEIVE_DATA: {
                 payload.forEach((d) => {
-                    state['byId'][d.id] = d;
+                    state['byId'][d.id] = {
+                        ...d,
+                        loaded: true
+                    };
                 });
                 return {
                     loaded: true,
+                    ...state
+                };
+            }
+
+            case modelPrefix + DataActions.REQUEST_DELETE_DATA: {
+                state['byId'][payload.id]['loaded'] = false;
+                return {
+                    ...state
+                };
+            }
+
+            case modelPrefix + DataActions.RECEIVE_DELETE_DATA: {
+                delete state['byId'][payload.id];
+                return {
                     ...state
                 };
             }

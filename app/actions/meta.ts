@@ -6,7 +6,7 @@ import {injectAsyncReducer} from '../store';
 import createDataReducer from '../reducers/data';
 
 import * as ActionBase from './base';
-import * as MetaInterfaces from '../interfaces/Meta';
+import * as MetaInterfaces from '../interfaces/meta';
 
 export const REQUEST_META = 'REQUEST_META';
 export const RECEIVE_META = 'RECEIVE_META';

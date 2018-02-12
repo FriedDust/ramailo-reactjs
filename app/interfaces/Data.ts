@@ -1,7 +1,10 @@
 export interface DataStoreProps {
     loaded: boolean,
     byId: {
-        [key: string]: {}
+        [key: string]: {
+            loaded: boolean,
+            id: string
+        }
     }
 }
 

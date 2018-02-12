@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import meta from './meta';
+import meta from './Meta';
 
 export default function createReducer(asyncReducers: {}) {
     return combineReducers({

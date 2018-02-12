@@ -1,33 +1,37 @@
 import * as React from 'react';
-import {RouteComponentProps} from 'react-router';
+import {RouteComponentProps, RouteProps} from 'react-router';
 
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
-import * as StoreInterfaces from '../interfaces/Store';
-import * as MetaInterfaces from '../interfaces/Meta';
-import * as DataInterfaces from '../interfaces/Data';
+import * as StoreInterfaces from '../interfaces/store';
+import * as MetaInterfaces from '../interfaces/meta';
+import * as DataInterfaces from '../interfaces/data';
 
-
-import * as MetaSelectors from '../selectors/Meta';
-import * as DataSelectors from '../selectors/Data';
+import * as MetaSelectors from '../selectors/meta';
+import * as DataSelectors from '../selectors/data';
 
 import * as DataActions from '../actions/data';
 
 import ModelNavigation from '../components/common/ModelNavigation';
 import DataTable from '../components/common/DataTable';
 
-interface DispatchProps {
-    loadData: DataActions.LoadDataThunkProps,
+interface OwnProps extends RouteComponentProps<{
+    modelName: string
+}> {
+
+}
+
+interface StoreProps {
     meta: MetaInterfaces.MetaResourceProps,
     dataList: Array<DataInterfaces.DataResourceProps>
 }
 
-type RouteProps = RouteComponentProps<{
-    modelName: string
-}>
+interface DispatchProps {
+    loadData: DataActions.LoadDataThunkProps
+}
 
-type DataIndexProps = DispatchProps & RouteProps;
+type DataIndexProps = OwnProps & StoreProps & DispatchProps
 
 class DataIndex extends React.Component<DataIndexProps> {
 
@@ -47,7 +51,7 @@ class DataIndex extends React.Component<DataIndexProps> {
 
     componentWillReceiveProps(nextProps: DataIndexProps) {
         let meta = this.props.meta;
-        if(meta) {
+        if (meta) {
             if (meta.type !== nextProps.meta.type) {
                 this.props.loadData({
                     name: nextProps.meta.name,
@@ -69,7 +73,7 @@ class DataIndex extends React.Component<DataIndexProps> {
     }
 }
 
-function mapStateToProps(state: StoreInterfaces.StoreStateProps, props: RouteProps) {
+function mapStateToProps(state: StoreInterfaces.StoreStateProps, props: OwnProps) {
     let modelName: string = props.match.params.modelName;
     let meta = MetaSelectors.findMeta(state)({name: modelName});
 
@@ -85,4 +89,4 @@ function mapDispatchToProps(dispatch: Dispatch<StoreInterfaces.StoreStateProps>)
     };
 }
 
-export default connect<{}, {}, DataIndexProps>(mapStateToProps, mapDispatchToProps)(DataIndex)
+export default connect<StoreProps, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps)(DataIndex)

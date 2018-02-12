@@ -1,5 +1,5 @@
-import * as MetaInterfaces from './Meta';
-import * as DataInterfaces from './Data';
+import * as MetaInterfaces from './meta';
+import * as DataInterfaces from './data';
 
 interface BaseProps  {
     meta: MetaInterfaces.MetaStoreProps,
